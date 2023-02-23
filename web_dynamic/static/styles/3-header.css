@@ -1,0 +1,26 @@
+header {
+    height:70px;
+    width: 100%;
+    border-bottom: solid 1px #cccccc;
+    box-sizing:border-box;
+    background-color: white;
+    background-image:url("../images/logo.png");
+    background-repeat: no-repeat;
+    background-position: 20px 50%;
+    position: relative;
+}
+
+#api_status {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #cccccc;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 30px;
+}
+
+.available {
+    background-color: #ff545f !important;
+}
