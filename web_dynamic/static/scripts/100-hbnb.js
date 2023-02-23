@@ -2,7 +2,6 @@ $( document ).ready(function () {
 
   // Display status
   $.get('http://0.0.0.0:5001/api/v1/status/', function (data) {
-    console.log(data.status);
     const result = data.status;
     if(result === 'OK') {
       if(!($('div#api_status').hasClass('available')));
@@ -15,19 +14,16 @@ $( document ).ready(function () {
 
   // collect amenities based on checkbox ticked
   var ameni_dict = {};
-    $('input:checkbox').change(function() {
+    $('.amenities input:checkbox').change(function() {
       // this will contain a reference to the checkbox   
       var $input = $( this );
-      var id = $input.attr('data-id')
-      var name = $input.attr('data-name')
+      var id = $input.attr('data-id');
+      var name = $input.attr('data-name');
       if (this.checked) {
-        console.log(name + " " + id);
         ameni_dict[id] = name;
-        console.log(ameni_dict);
       } else {
         if (id in ameni_dict) {
           delete ameni_dict[id];
-          console.log(ameni_dict);
         }
       }
       $('div.amenities h4').empty();
@@ -39,13 +35,60 @@ $( document ).ready(function () {
       $('div.amenities h4').text(entry);
     });
  
+  // Collect data from state based on checkbox ticked
+  var state_dict = {};
+  $('.locations .popover li > h2 > input[type="checkbox"]').change(function() {
+    var $input = $( this );
+      var id = $input.attr('data-id');
+      var name = $input.attr('data-name');
+      if (this.checked) {
+        state_dict[id] = name;
+      } else {
+        if (id in state_dict) {
+          delete state_dict[id];
+        }
+      }
+      const locations = Object.assign({}, state_dict, city_dict);
+      if (Object.values(locations).length === 0) {
+        $('.locations h4').html('&nbsp;');
+      } else {
+      $('.locations h4').text(Object.values(locations).join(', '));
+      }
+  });
+
+ // Collect data from city based on checkbox ticked
+  var city_dict = {};
+  $('.locations .popover li > ul li > input[type="checkbox"]').change(function() {
+    var $input = $( this );
+      var id = $input.attr('data-id');
+      var name = $input.attr('data-name');
+      if (this.checked) {
+        city_dict[id] = name;
+      } else {
+        if (id in city_dict) {
+          delete city_dict[id];
+        }
+      }
+      const locations = Object.assign({}, state_dict, city_dict);
+      if (Object.values(locations).length === 0) {
+        $('.locations h4').html('&nbsp;');
+      } else {
+      $('.locations h4').text(Object.values(locations).join(', '));
+      }
+  });
+
+
 
   // Posting amentities data to api
   $('section.filters button').on('click', function () {
     $.ajax({
       url: 'http://0.0.0.0:5001/api/v1/places_search/',
       type: 'POST',
-      data: JSON.stringify({ 'amen_dict': Object.keys(ameni_dict) }),
+      data: JSON.stringify({ 
+	      'state_dict': Object.keys(state_dict), 
+	      'city_dict': Object.keys(city_dict), 
+	      'ameni_dict': Object.keys(ameni_dict), 
+      }),
       contentType: 'application/json',
       dataType: 'json',
       success: function (data) {
@@ -83,4 +126,7 @@ $( document ).ready(function () {
       }
     });
   });
+
+
+
 });

@@ -9,13 +9,13 @@
     <link type="text/css" rel="stylesheet" href="../static/styles/8-places.css?{{cache_id}}">
     <link rel="icon" href="../static/images/icon.png" />
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="../static/scripts/4-hbnb.js?{{cache_id}}"></script>
+    <script type="text/javascript" src="../static/scripts/100-hbnb.js?{{cache_id}}"></script>
     <title>HBnB</title>
   </head>
   <body>
     <header>
       <div class="logo"></div>
-      <div id='api_status' class='available'></div>
+      <div id='api_status' class="available"></div>
     </header>
     <div class="container">
       <section class="filters">
@@ -23,18 +23,18 @@
 	  <h3>States</h3>
 	  <h4>&nbsp;</h4>
 	  <div class="popover">
-	    <ul>
-	      {% for state in states %}
-	      <li>
-		<h2>{{ state[0].name }}:</h2>
 		<ul>
-		  {% for city in state[1] %}
-		  <li>{{ city.name }}</li>
-		  {% endfor %}
-		</ul>
-	      </li>
-	      {% endfor %}
-	    </ul>
+                {% for state in states %}
+                	<li>
+                        <h2><INPUT data-id="{{ state[0].id }}" data-name="{{ state[0].name }}" type="checkbox"> {{ state[0].name }}:</h2>
+                        <ul>
+                        	{% for city in state[1] %}
+                                <li><INPUT data-id="{{ city.id }}" data-name="{{ city.name }}" type="checkbox"> {{ city.name }}</li>
+                        	{% endfor %}
+                        </ul>
+                        </li>
+                {% endfor %}
+                  </ul>
 	  </div>
 	</div>
 	<div class="amenities">
@@ -55,7 +55,7 @@
       </section>
       <div class="placesh1"><h1>Places</h1></div>
       <section class="places">
-	      <!--<h1>Places</h1>-->
+	      <!---<h1>Places</h1>--->
       </section>
     </div>
     <footer>
